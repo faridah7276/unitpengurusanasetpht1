@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SAPA — Sistem Aset Politeknik Alih | Politeknik Hulu Terengganu</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#003399;--navy-dk:#002277;--navy-lt:#e8eeff;
+  --gold:#cc9900;--gold-lt:#fff8e1;
+  --green:#198038;--green-lt:#dcfce7;
+  --red:#c00;--red-lt:#fee2e2;
+  --orange:#b45309;--orange-lt:#fef3c7;
+  --purple:#6d28d9;--purple-lt:#ede9fe;
+  --bg:#f0f2f7;--surface:#fff;--border:#dde1ec;
+  --text:#1a1a2e;--muted:#5a6480;
+  --r:8px;--shadow:0 2px 10px rgba(0,30,100,.08);
+}
+html{font-size:15px}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,var(--navy) 0%,#0055cc 100%);color:#fff;padding:0 1.5rem;box-shadow:0 3px 12px rgba(0,0,0,.25)}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.85rem 0}
+.hbrand{display:flex;align-items:center;gap:.9rem}
+.hbrand-icon{font-size:2.2rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.hbrand h1{font-size:1.25rem;font-weight:700;line-height:1.2}
+.hbrand p{font-size:.75rem;opacity:.8;margin-top:2px}
+.hbrand span{display:inline-block;background:var(--gold);color:#1a1a00;font-size:.65rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;margin-left:.5rem;vertical-align:middle}
+.hactions{display:flex;gap:.6rem;align-items:center}
+
+/* ── CONTAINER ── */
+.container{max-width:1400px;margin:0 auto;padding:1.4rem;display:flex;flex-direction:column;gap:1.3rem}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem 1rem;border:none;border-radius:var(--r);font-size:.84rem;font-weight:500;cursor:pointer;transition:all .15s}
+.btn-primary{background:#fff;color:var(--navy)}
+.btn-primary:hover{background:#dbeafe}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-dk)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:#f0f0f0}
+.btn-danger{background:var(--red-lt);color:var(--red);border:1px solid #fca5a5}
+.btn-danger:hover{background:#fecaca}
+.btn-gold{background:var(--gold);color:#1a1a00;font-weight:600}
+.btn-gold:hover{background:#b8860b;color:#fff}
+.btn-sm{padding:.3rem .7rem;font-size:.78rem}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
+.tab{flex:1;padding:.7rem .5rem;text-align:center;font-size:.82rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{background:var(--navy-lt);color:var(--navy)}
+.tab.active{background:var(--navy-lt);color:var(--navy);border-bottom-color:var(--navy);font-weight:600}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:1.1rem 1.3rem;display:flex;align-items:center;gap:.9rem;border-left:4px solid transparent;transition:transform .15s}
+.card:hover{transform:translateY(-2px)}
+.card-navy  {border-color:var(--navy)}
+.card-green {border-color:var(--green)}
+.card-orange{border-color:var(--orange)}
+.card-red   {border-color:var(--red)}
+.card-purple{border-color:var(--purple)}
+.card-gold  {border-color:var(--gold)}
+.card-icon{font-size:2rem}
+.card-val{font-size:1.6rem;font-weight:700;line-height:1}
+.card-lbl{font-size:.74rem;color:var(--muted);margin-top:3px}
+.card-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+
+/* ── SECTION BOX ── */
+.box{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:1.2rem 1.4rem}
+.box-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.box-title span{color:var(--navy)}
+
+/* ── CHARTS ── */
+.charts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.chart-card{background:#fafbff;border:1px solid var(--border);border-radius:var(--r);padding:1rem}
+.chart-title{font-size:.82rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+.chart-wrap{height:200px;position:relative}
+
+/* ── CONTROLS ── */
+.controls{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.search-wrap{position:relative;flex:1 1 220px;max-width:300px}
+.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);pointer-events:none;font-size:.85rem}
+.search-wrap input{width:100%;padding:.45rem .7rem .45rem 2rem;border:1px solid var(--border);border-radius:var(--r);font-size:.84rem;background:#fafafa;outline:none}
+.search-wrap input:focus{border-color:var(--navy);background:#fff}
+.ctrl-select{padding:.43rem .7rem;border:1px solid var(--border);border-radius:var(--r);font-size:.84rem;background:#fafafa;cursor:pointer;outline:none;min-width:130px}
+.ctrl-select:focus{border-color:var(--navy)}
+.filter-label{font-size:.75rem;color:var(--muted);font-weight:500}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+.tbl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.tbl-count{font-size:.77rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead tr{background:#f0f2f7;border-bottom:2px solid var(--border)}
+thead th{padding:.6rem .9rem;text-align:left;font-weight:600;white-space:nowrap;color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.03em}
+tbody tr{border-bottom:1px solid #f0f2f7;transition:background .1s}
+tbody tr:hover{background:#f5f7ff}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:.5rem .9rem;vertical-align:middle}
+.no-siri{font-family:monospace;font-size:.77rem;background:var(--navy-lt);color:var(--navy-dk);padding:.12rem .4rem;border-radius:4px;font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:.25rem;padding:.18rem .5rem;border-radius:999px;font-size:.72rem;font-weight:600}
+.badge-hm    {background:#dbeafe;color:#1e40af}
+.badge-hr    {background:#fef9c3;color:#854d0e}
+.badge-baik  {background:var(--green-lt);color:var(--green)}
+.badge-rosak {background:var(--red-lt);color:var(--red)}
+.badge-selengg{background:var(--orange-lt);color:var(--orange)}
+.badge-aktif {background:var(--green-lt);color:var(--green)}
+.badge-hapus {background:#f3f4f6;color:#6b7280}
+.empty-row{text-align:center;color:var(--muted);padding:2.5rem!important}
+
+/* ── STATUS SELECT ── */
+.ss{padding:.25rem .45rem;border-radius:6px;font-size:.74rem;font-weight:500;border:1px solid transparent;cursor:pointer;outline:none;min-width:110px}
+.ss-baik    {background:var(--green-lt);color:var(--green);border-color:#86efac}
+.ss-rosak   {background:var(--red-lt);color:var(--red);border-color:#fca5a5}
+.ss-selengg {background:var(--orange-lt);color:var(--orange);border-color:#fcd34d}
+.ss-aktif   {background:var(--green-lt);color:var(--green);border-color:#86efac}
+.ss-hapus   {background:#f3f4f6;color:#6b7280;border-color:#d1d5db}
+
+/* ── MATRIK ── */
+.matrix-table{font-size:.8rem}
+.matrix-table th{background:var(--navy);color:#fff;padding:.5rem .7rem;text-align:center;white-space:nowrap}
+.matrix-table th:first-child{text-align:left;background:var(--navy-dk)}
+.matrix-table td{padding:.45rem .7rem;text-align:center;border:1px solid var(--border);cursor:pointer;transition:background .1s}
+.matrix-table td:first-child{font-weight:500;text-align:left;background:#f8f9ff;cursor:default}
+.matrix-table td.has-aset{background:var(--navy-lt);color:var(--navy);font-weight:700}
+.matrix-table td.has-aset:hover{background:#c5d3ff}
+.matrix-table td.zero{background:#fafafa;color:#ccc}
+.matrix-total{background:#f0f2f7!important;font-weight:700!important;color:var(--navy)!important;cursor:default!important}
+
+/* ── LOG JEJAK ── */
+.log-item{display:flex;gap:.8rem;padding:.65rem 0;border-bottom:1px solid #f0f2f7}
+.log-item:last-child{border-bottom:none}
+.log-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.log-body{flex:1}
+.log-aset{font-weight:600;font-size:.84rem}
+.log-detail{font-size:.77rem;color:var(--muted);margin-top:2px}
+.log-time{font-size:.72rem;color:var(--muted);white-space:nowrap}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.active{display:flex}
+.modal{background:var(--surface);border-radius:var(--r);box-shadow:0 12px 40px rgba(0,0,0,.2);width:600px;max-width:100%;max-height:90vh;overflow-y:auto;animation:msu .2s ease}
+@keyframes msu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);background:var(--navy);color:#fff;border-radius:var(--r) var(--r) 0 0}
+.modal-hdr h2{font-size:1rem;font-weight:600}
+.modal-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:rgba(255,255,255,.7);padding:.2rem .4rem;border-radius:4px}
+.modal-close:hover{background:rgba(255,255,255,.15);color:#fff}
+.modal-body{padding:1.3rem 1.4rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.form-col{display:flex;flex-direction:column;gap:.3rem}
+.form-col.full{grid-column:1/-1}
+.form-col label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.form-col input,.form-col select,.form-col textarea{padding:.48rem .75rem;border:1px solid var(--border);border-radius:var(--r);font-size:.875rem;outline:none;width:100%}
+.form-col input:focus,.form-col select:focus,.form-col textarea:focus{border-color:var(--navy)}
+.modal-ftr{display:flex;justify-content:flex-end;gap:.7rem;padding:1rem 1.4rem;border-top:1px solid var(--border)}
+
+/* ── MATRIK MODAL ── */
+.zoom-list{display:flex;flex-direction:column;gap:.5rem;max-height:400px;overflow-y:auto}
+.zoom-item{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;background:#fafbff;border:1px solid var(--border);border-radius:6px}
+.zoom-nosiri{font-family:monospace;font-size:.78rem;background:var(--navy-lt);color:var(--navy-dk);padding:.1rem .35rem;border-radius:4px;font-weight:700;white-space:nowrap}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:3000;background:#1e293b;color:#fff;padding:.65rem 1.2rem;border-radius:var(--r);font-size:.84rem;opacity:0;transition:opacity .3s;pointer-events:none;max-width:320px}
+#toast.show{opacity:1}
+
+/* ── TABS CONTENT ── */
+.tab-content{display:none}
+.tab-content.active{display:flex;flex-direction:column;gap:1.3rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.charts-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.cards-grid{grid-template-columns:repeat(2,1fr)}.charts-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .cards-grid{grid-template-columns:1fr 1fr}
+  .header-inner{flex-direction:column;align-items:flex-start;gap:.7rem}
+  .form-grid{grid-template-columns:1fr}
+  .tabs{flex-wrap:wrap}
+  .tab{flex:none;width:50%}
+}
+@media(max-width:420px){.cards-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="hbrand">
+      <span class="hbrand-icon">🏛️</span>
+      <div>
+        <h1>SAPA <span>PROTOTAIP</span></h1>
+        <p>Sistem Aset Politeknik Alih &nbsp;|&nbsp; Politeknik Hulu Terengganu</p>
+      </div>
+    </div>
+    <div class="hactions">
+      <button class="btn btn-primary" id="btnTambahAset">＋ Daftar Aset</button>
+      <button class="btn btn-gold" id="btnExport">⬇ Export CSV</button>
+      <button class="btn btn-danger btn-sm" id="btnResetData">↺ Reset</button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- TABS -->
+  <div class="tabs" id="tabBar">
+    <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
+    <button class="tab" data-tab="senarai">📋 Senarai Aset</button>
+    <button class="tab" data-tab="lokasi">📍 Mengikut Lokasi</button>
+    <button class="tab" data-tab="pegawai">👤 Mengikut Pegawai</button>
+    <button class="tab" data-tab="matrik">🗂️ Matrik Silang</button>
+    <button class="tab" data-tab="jejak">📜 Log Jejak</button>
+  </div>
+
+  <!-- TAB: DASHBOARD -->
+  <div class="tab-content active" id="tab-dashboard">
+    <div class="cards-grid" id="kpiCards"></div>
+    <div class="charts-grid">
+      <div class="chart-card"><div class="chart-title">📦 Agihan Kategori Aset</div><div class="chart-wrap"><canvas id="cKategori"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">🏢 Bilangan Aset Mengikut Bangunan</div><div class="chart-wrap"><canvas id="cBangunan"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">🔧 Bilangan Aset Mengikut Jenis</div><div class="chart-wrap"><canvas id="cJenis"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">💛 Kondisi Aset Keseluruhan</div><div class="chart-wrap"><canvas id="cKondisi"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- TAB: SENARAI ASET -->
+  <div class="tab-content" id="tab-senarai">
+    <div class="box">
+      <div class="box-title"><span>🔍</span> Carian & Penapisan</div>
+      <div class="controls" id="ctrlSenarai">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" id="srchSenarai" placeholder="Cari No Siri / Nama Aset..."/></div>
+        <select class="ctrl-select" id="fKategori"><option value="">Semua Kategori</option><option value="Hartamodal">Hartamodal</option><option value="Harga Rendah">Harga Rendah</option></select>
+        <select class="ctrl-select" id="fJenis"><option value="">Semua Jenis</option></select>
+        <select class="ctrl-select" id="fBangunan"><option value="">Semua Bangunan</option></select>
+        <select class="ctrl-select" id="fLokasi"><option value="">Semua Lokasi</option></select>
+        <select class="ctrl-select" id="fKondisi"><option value="">Semua Kondisi</option><option value="Baik">Baik</option><option value="Rosak">Rosak</option><option value="Penyelenggaraan">Penyelenggaraan</option></select>
+        <button class="btn btn-secondary btn-sm" id="btnResetFilter">↺ Reset Filter</button>
+      </div>
+    </div>
+    <div class="box">
+      <div class="tbl-header">
+        <div class="box-title" style="margin-bottom:0"><span>📋</span> Rekod Aset</div>
+        <span class="tbl-count" id="senaraiCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead id="thdSenarai"></thead><tbody id="tbdSenarai"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: LOKASI -->
+  <div class="tab-content" id="tab-lokasi">
+    <div class="box">
+      <div class="controls">
+        <select class="ctrl-select" id="fLokasiTab"><option value="">-- Pilih Bangunan --</option></select>
+        <select class="ctrl-select" id="fBilikTab"><option value="">-- Pilih Bilik/Lokasi --</option></select>
+      </div>
+    </div>
+    <div class="box" id="lokasiDetail">
+      <div class="box-title"><span>📍</span> Pilih lokasi untuk melihat aset</div>
+    </div>
+  </div>
+
+  <!-- TAB: PEGAWAI -->
+  <div class="tab-content" id="tab-pegawai">
+    <div class="box">
+      <div class="controls">
+        <select class="ctrl-select" id="fPegawaiTab" style="min-width:220px"><option value="">-- Pilih Pegawai --</option></select>
+      </div>
+    </div>
+    <div class="box" id="pegawaiDetail">
+      <div class="box-title"><span>👤</span> Pilih pegawai untuk melihat aset di bawah tanggungjawab</div>
+    </div>
+  </div>
+
+  <!-- TAB: MATRIK -->
+  <div class="tab-content" id="tab-matrik">
+    <div class="box">
+      <div class="box-title"><span>🗂️</span> Matrik Silang — Lokasi × Jenis Aset</div>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:1rem">Klik pada sel berwarna untuk melihat senarai aset tersebut.</p>
+      <div class="tbl-wrap"><table class="matrix-table" id="matrikTable"></table></div>
+    </div>
+  </div>
+
+  <!-- TAB: LOG JEJAK -->
+  <div class="tab-content" id="tab-jejak">
+    <div class="box">
+      <div class="tbl-header">
+        <div class="box-title" style="margin-bottom:0"><span>📜</span> Log Jejak Audit</div>
+        <button class="btn btn-danger btn-sm" id="btnClearLog">🗑 Padam Log</button>
+      </div>
+      <div id="logList"><p style="color:var(--muted);font-size:.85rem;padding:.5rem">Tiada rekod log.</p></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL TAMBAH ASET -->
+<div class="modal-overlay" id="modalAset">
+  <div class="modal">
+    <div class="modal-hdr"><h2 id="modalAsetTitle">🏛️ Daftar Aset Baru</h2><button class="modal-close" id="btnCloseModalAset">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-col"><label>No. Siri / Tag Aset *</label><input type="text" id="fmNoSiri" placeholder="cth: HM-2024-0001"/></div>
+        <div class="form-col"><label>Nama / Keterangan Aset *</label><input type="text" id="fmNama" placeholder="cth: Komputer Riba Dell"/></div>
+        <div class="form-col"><label>Kategori *</label>
+          <select id="fmKategori"><option value="">-- Pilih --</option><option value="Hartamodal">Hartamodal (≥ RM1,000)</option><option value="Harga Rendah">Harga Rendah (< RM1,000)</option></select>
+        </div>
+        <div class="form-col"><label>Jenis Aset *</label>
+          <select id="fmJenis"><option value="">-- Pilih --</option><option value="ICT">ICT</option><option value="Perabot">Perabot</option><option value="Jentera">Jentera & Peralatan</option><option value="Elektrik">Peralatan Elektrik</option><option value="Peralatan Am">Peralatan Am</option><option value="Kenderaan">Kenderaan</option></select>
+        </div>
+        <div class="form-col"><label>Harga Perolehan (RM) *</label><input type="number" id="fmHarga" placeholder="0.00" min="0" step="0.01"/></div>
+        <div class="form-col"><label>Tarikh Perolehan *</label><input type="date" id="fmTarikh"/></div>
+        <div class="form-col"><label>Pembekal</label><input type="text" id="fmPembekal" placeholder="Nama syarikat pembekal"/></div>
+        <div class="form-col"><label>Kondisi *</label>
+          <select id="fmKondisi"><option value="Baik">Baik</option><option value="Rosak">Rosak</option><option value="Penyelenggaraan">Dalam Penyelenggaraan</option></select>
+        </div>
+        <div class="form-col"><label>Bangunan *</label><select id="fmBangunan"><option value="">-- Pilih --</option></select></div>
+        <div class="form-col"><label>Lokasi / Bilik *</label><select id="fmLokasi"><option value="">-- Pilih Bangunan Dahulu --</option></select></div>
+        <div class="form-col full"><label>Pegawai Bertanggungjawab *</label><select id="fmPegawai"><option value="">-- Pilih --</option></select></div>
+        <div class="form-col full"><label>Catatan</label><textarea id="fmCatatan" rows="2" placeholder="Catatan tambahan (jika ada)"></textarea></div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-secondary" id="btnCancelAset">Batal</button>
+      <button class="btn btn-navy" id="btnSaveAset">💾 Simpan Aset</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ZOOM MATRIK -->
+<div class="modal-overlay" id="modalZoom">
+  <div class="modal" style="width:500px">
+    <div class="modal-hdr"><h2 id="zoomTitle">Senarai Aset</h2><button class="modal-close" id="btnCloseZoom">✕</button></div>
+    <div class="modal-body"><div class="zoom-list" id="zoomList"></div></div>
+    <div class="modal-ftr"><button class="btn btn-secondary" id="btnCloseZoom2">Tutup</button></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+//  SEED DATA
+// ══════════════════════════════════════════════════════════════
+const BANGUNAN_DATA = [
+  { id:"BG1", nama:"Bangunan Pentadbiran" },
+  { id:"BG2", nama:"Bangunan Akademik A" },
+  { id:"BG3", nama:"Bangunan Akademik B" },
+  { id:"BG4", nama:"Kompleks Makmal" },
+  { id:"BG5", nama:"Bengkel & Stor" }
+];
+
+const LOKASI_DATA = [
+  { id:"L01", bId:"BG1", nama:"Pejabat Pengetua" },
+  { id:"L02", bId:"BG1", nama:"Pejabat Am / Pentadbiran" },
+  { id:"L03", bId:"BG1", nama:"Bilik Mesyuarat Utama" },
+  { id:"L04", bId:"BG2", nama:"Bilik Kuliah A1" },
+  { id:"L05", bId:"BG2", nama:"Bilik Kuliah A2" },
+  { id:"L06", bId:"BG2", nama:"Bilik Pensyarah A" },
+  { id:"L07", bId:"BG3", nama:"Bilik Kuliah B1" },
+  { id:"L08", bId:"BG3", nama:"Bilik Kuliah B2" },
+  { id:"L09", bId:"BG3", nama:"Bilik Pensyarah B" },
+  { id:"L10", bId:"BG4", nama:"Makmal Komputer 1" },
+  { id:"L11", bId:"BG4", nama:"Makmal Komputer 2" },
+  { id:"L12", bId:"BG4", nama:"Makmal Sains Gunaan" },
+  { id:"L13", bId:"BG5", nama:"Bengkel Kejuruteraan" },
+  { id:"L14", bId:"BG5", nama:"Bengkel Elektrik" },
+  { id:"L15", bId:"BG5", nama:"Stor Peralatan" }
+];
+
+const PEGAWAI_DATA = [
+  { id:"PG01", nama:"Mohd Fazli bin Hamid",    jawatan:"Pegawai Tadbir",        lokasiId:"L01" },
+  { id:"PG02", nama:"Norliza binti Ariffin",   jawatan:"Pembantu Tadbir",       lokasiId:"L02" },
+  { id:"PG03", nama:"Razali bin Othman",        jawatan:"Penolong Pengarah",     lokasiId:"L03" },
+  { id:"PG04", nama:"Siti Hajar binti Zainol",  jawatan:"Pensyarah Kanan",       lokasiId:"L04" },
+  { id:"PG05", nama:"Ahmad Syafiq bin Rosli",   jawatan:"Pensyarah",             lokasiId:"L06" },
+  { id:"PG06", nama:"Nor Azura binti Kamarudin",jawatan:"Pensyarah Kanan",       lokasiId:"L07" },
+  { id:"PG07", nama:"Hairul Nizam bin Ismail",  jawatan:"Pensyarah",             lokasiId:"L09" },
+  { id:"PG08", nama:"Zulkifli bin Mat Amin",    jawatan:"Juruteknik Komputer",   lokasiId:"L10" },
+  { id:"PG09", nama:"Faridah binti Mahmud",     jawatan:"Juruteknik Makmal",     lokasiId:"L12" },
+  { id:"PG10", nama:"Kamarudin bin Taib",        jawatan:"Juruteknik Bengkel",    lokasiId:"L13" }
+];
+
+const SEED_ASET = [
+  {id:"A001",noSiri:"HM-2024-001",nama:"Komputer Riba Dell Latitude",kategori:"Hartamodal",jenis:"ICT",harga:4200,tarikh:"2024-01-15",pembekal:"TechCom Sdn Bhd",kondisi:"Baik",status:"Aktif",lokasiId:"L10",pegawaiId:"PG08",catatan:""},
+  {id:"A002",noSiri:"HM-2024-002",nama:"Komputer Riba Dell Latitude",kategori:"Hartamodal",jenis:"ICT",harga:4200,tarikh:"2024-01-15",pembekal:"TechCom Sdn Bhd",kondisi:"Baik",status:"Aktif",lokasiId:"L10",pegawaiId:"PG08",catatan:""},
+  {id:"A003",noSiri:"HM-2024-003",nama:"Komputer Riba HP ProBook",kategori:"Hartamodal",jenis:"ICT",harga:3800,tarikh:"2024-02-10",pembekal:"HP Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L11",pegawaiId:"PG08",catatan:""},
+  {id:"A004",noSiri:"HM-2024-004",nama:"Projektor Epson EB-X51",kategori:"Hartamodal",jenis:"ICT",harga:2500,tarikh:"2024-01-20",pembekal:"Epson Dist",kondisi:"Baik",status:"Aktif",lokasiId:"L04",pegawaiId:"PG04",catatan:""},
+  {id:"A005",noSiri:"HM-2024-005",nama:"Projektor Epson EB-X51",kategori:"Hartamodal",jenis:"ICT",harga:2500,tarikh:"2024-01-20",pembekal:"Epson Dist",kondisi:"Rosak",status:"Aktif",lokasiId:"L05",pegawaiId:"PG04",catatan:"Tiada gambar"},
+  {id:"A006",noSiri:"HM-2024-006",nama:"Pencetak Laser HP LaserJet",kategori:"Hartamodal",jenis:"ICT",harga:1800,tarikh:"2024-03-05",pembekal:"HP Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L02",pegawaiId:"PG02",catatan:""},
+  {id:"A007",noSiri:"HM-2024-007",nama:"Penghawa Dingin Daikin 2.0HP",kategori:"Hartamodal",jenis:"Elektrik",harga:2800,tarikh:"2023-11-10",pembekal:"Daikin Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L01",pegawaiId:"PG01",catatan:""},
+  {id:"A008",noSiri:"HM-2024-008",nama:"Penghawa Dingin Daikin 2.0HP",kategori:"Hartamodal",jenis:"Elektrik",harga:2800,tarikh:"2023-11-10",pembekal:"Daikin Malaysia",kondisi:"Penyelenggaraan",status:"Aktif",lokasiId:"L03",pegawaiId:"PG03",catatan:"Penapis kotor"},
+  {id:"A009",noSiri:"HM-2024-009",nama:"Penghawa Dingin Daikin 1.5HP",kategori:"Hartamodal",jenis:"Elektrik",harga:2200,tarikh:"2024-04-01",pembekal:"Daikin Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L10",pegawaiId:"PG08",catatan:""},
+  {id:"A010",noSiri:"HM-2024-010",nama:"Mesin Fotokopi Canon IR",kategori:"Hartamodal",jenis:"ICT",harga:8500,tarikh:"2023-06-15",pembekal:"Canon Dist",kondisi:"Baik",status:"Aktif",lokasiId:"L02",pegawaiId:"PG02",catatan:""},
+  {id:"A011",noSiri:"HM-2024-011",nama:"Meja Eksekutif Kayu",kategori:"Hartamodal",jenis:"Perabot",harga:1500,tarikh:"2022-08-20",pembekal:"Syarikat Perabot Terengganu",kondisi:"Baik",status:"Aktif",lokasiId:"L01",pegawaiId:"PG01",catatan:""},
+  {id:"A012",noSiri:"HM-2024-012",nama:"Kerusi Eksekutif Kulit",kategori:"Hartamodal",jenis:"Perabot",harga:1200,tarikh:"2022-08-20",pembekal:"Syarikat Perabot Terengganu",kondisi:"Baik",status:"Aktif",lokasiId:"L01",pegawaiId:"PG01",catatan:""},
+  {id:"A013",noSiri:"HM-2024-013",nama:"Almari Besi 4 Laci",kategori:"Hartamodal",jenis:"Perabot",harga:1100,tarikh:"2023-02-14",pembekal:"Steel Furniture Sdn Bhd",kondisi:"Baik",status:"Aktif",lokasiId:"L02",pegawaiId:"PG02",catatan:""},
+  {id:"A014",noSiri:"HM-2024-014",nama:"Mesin Larik CNC",kategori:"Hartamodal",jenis:"Jentera",harga:45000,tarikh:"2023-09-01",pembekal:"Mazak Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L13",pegawaiId:"PG10",catatan:"Mesin utama bengkel"},
+  {id:"A015",noSiri:"HM-2024-015",nama:"Mesin Las MIG",kategori:"Hartamodal",jenis:"Jentera",harga:3500,tarikh:"2024-01-08",pembekal:"Lincoln Electric",kondisi:"Baik",status:"Aktif",lokasiId:"L14",pegawaiId:"PG10",catatan:""},
+  {id:"A016",noSiri:"HM-2024-016",nama:"Kompresor Udara 50L",kategori:"Hartamodal",jenis:"Jentera",harga:2200,tarikh:"2023-07-20",pembekal:"Ingersoll Rand",kondisi:"Penyelenggaraan",status:"Aktif",lokasiId:"L13",pegawaiId:"PG10",catatan:"Tukar paip"},
+  {id:"A017",noSiri:"HM-2024-017",nama:"UPS APC 1500VA",kategori:"Hartamodal",jenis:"Elektrik",harga:1400,tarikh:"2024-02-28",pembekal:"APC Dist",kondisi:"Baik",status:"Aktif",lokasiId:"L10",pegawaiId:"PG08",catatan:""},
+  {id:"A018",noSiri:"HM-2024-018",nama:"Papan Putih Elektronik 75in",kategori:"Hartamodal",jenis:"ICT",harga:6500,tarikh:"2024-03-15",pembekal:"Samsung Dist",kondisi:"Baik",status:"Aktif",lokasiId:"L07",pegawaiId:"PG06",catatan:""},
+  {id:"A019",noSiri:"HM-2024-019",nama:"Papan Putih Elektronik 75in",kategori:"Hartamodal",jenis:"ICT",harga:6500,tarikh:"2024-03-15",pembekal:"Samsung Dist",kondisi:"Baik",status:"Aktif",lokasiId:"L08",pegawaiId:"PG06",catatan:""},
+  {id:"A020",noSiri:"HM-2024-020",nama:"Rak Pelayan Dinding 9U",kategori:"Hartamodal",jenis:"ICT",harga:2800,tarikh:"2023-12-01",pembekal:"TechCom Sdn Bhd",kondisi:"Baik",status:"Aktif",lokasiId:"L11",pegawaiId:"PG08",catatan:""},
+  {id:"A021",noSiri:"HR-2024-001",nama:"Kerusi Plastik (set 10)",kategori:"Harga Rendah",jenis:"Perabot",harga:350,tarikh:"2024-01-05",pembekal:"Kedai Perabot KT",kondisi:"Baik",status:"Aktif",lokasiId:"L04",pegawaiId:"PG04",catatan:""},
+  {id:"A022",noSiri:"HR-2024-002",nama:"Kerusi Plastik (set 10)",kategori:"Harga Rendah",jenis:"Perabot",harga:350,tarikh:"2024-01-05",pembekal:"Kedai Perabot KT",kondisi:"Baik",status:"Aktif",lokasiId:"L05",pegawaiId:"PG04",catatan:""},
+  {id:"A023",noSiri:"HR-2024-003",nama:"Kalkulator Casio fx-570",kategori:"Harga Rendah",jenis:"Peralatan Am",harga:85,tarikh:"2024-02-01",pembekal:"Koop PHT",kondisi:"Baik",status:"Aktif",lokasiId:"L12",pegawaiId:"PG09",catatan:""},
+  {id:"A024",noSiri:"HR-2024-004",nama:"Kipas Meja Panasonic",kategori:"Harga Rendah",jenis:"Elektrik",harga:120,tarikh:"2023-10-15",pembekal:"Kedai Elektrik Dungun",kondisi:"Rosak",status:"Aktif",lokasiId:"L09",pegawaiId:"PG07",catatan:"Motor terbakar"},
+  {id:"A025",noSiri:"HR-2024-005",nama:"Set Peralatan Tangan (Spanar)",kategori:"Harga Rendah",jenis:"Peralatan Am",harga:250,tarikh:"2024-03-20",pembekal:"Hardware Store PHT",kondisi:"Baik",status:"Aktif",lokasiId:"L15",pegawaiId:"PG10",catatan:""},
+  {id:"A026",noSiri:"HR-2024-006",nama:"Pembesar Suara Yamaha",kategori:"Harga Rendah",jenis:"ICT",harga:320,tarikh:"2024-01-30",pembekal:"Audio Sdn Bhd",kondisi:"Baik",status:"Aktif",lokasiId:"L06",pegawaiId:"PG05",catatan:""},
+  {id:"A027",noSiri:"HR-2024-007",nama:"Pen Pencetak Label Brady",kategori:"Harga Rendah",jenis:"Peralatan Am",harga:180,tarikh:"2024-04-10",pembekal:"Brady Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L02",pegawaiId:"PG02",catatan:""},
+  {id:"A028",noSiri:"HR-2024-008",nama:"Multimeter Digital",kategori:"Harga Rendah",jenis:"Peralatan Am",harga:95,tarikh:"2024-02-15",pembekal:"Hardware Store PHT",kondisi:"Baik",status:"Aktif",lokasiId:"L14",pegawaiId:"PG10",catatan:""},
+  {id:"A029",noSiri:"HM-2023-050",nama:"Meja Makmal Stainless",kategori:"Hartamodal",jenis:"Perabot",harga:3200,tarikh:"2023-05-10",pembekal:"Lab Furniture Co",kondisi:"Baik",status:"Aktif",lokasiId:"L12",pegawaiId:"PG09",catatan:""},
+  {id:"A030",noSiri:"HM-2022-033",nama:"Generator Diesel 15kVA",kategori:"Hartamodal",jenis:"Jentera",harga:18000,tarikh:"2022-11-30",pembekal:"Cummins Malaysia",kondisi:"Baik",status:"Aktif",lokasiId:"L15",pegawaiId:"PG10",catatan:"Guna kecemasan"}
+];
+
+// ══════════════════════════════════════════════════════════════
+//  DB LAYER
+// ══════════════════════════════════════════════════════════════
+const KEY = "sapa_v1";
+
+function loadDB() {
+  try { const r = localStorage.getItem(KEY); if (r) return JSON.parse(r); } catch(_) {}
+  return null;
+}
+function saveDB() {
+  try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch(_) {}
+}
+function freshDB() {
+  return {
+    bangunan: BANGUNAN_DATA,
+    lokasi:   LOKASI_DATA,
+    pegawai:  PEGAWAI_DATA,
+    aset:     SEED_ASET.map(a => ({...a})),
+    log:      []
+  };
+}
+
+let DB = loadDB() || freshDB();
+saveDB();
+
+// ══════════════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════════════
+function getLokasi(id)   { return DB.lokasi.find(l => l.id === id) || {}; }
+function getBangunan(id) { return DB.bangunan.find(b => b.id === id) || {}; }
+function getPegawai(id)  { return DB.pegawai.find(p => p.id === id) || {}; }
+function getBangunanByLokasi(lId) {
+  const l = getLokasi(lId); return getBangunan(l.bId || "");
+}
+function fmt(n) { return "RM " + Number(n).toLocaleString("ms-MY", {minimumFractionDigits:2}); }
+function today() { return new Date().toLocaleDateString("ms-MY",{day:"2-digit",month:"2-digit",year:"numeric"}); }
+function nowStr() { return new Date().toLocaleString("ms-MY"); }
+
+function addLog(asetId, aksi, dari, kepada, field) {
+  const a = DB.aset.find(x => x.id === asetId) || {};
+  DB.log.unshift({
+    ts: nowStr(), asetId, noSiri: a.noSiri || asetId,
+    nama: a.nama || "", aksi, field, dari, kepada
+  });
+  if (DB.log.length > 200) DB.log = DB.log.slice(0, 200);
+  saveDB();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CHARTS
+// ══════════════════════════════════════════════════════════════
+let chartInstances = {};
+function destroyCharts() {
+  Object.values(chartInstances).forEach(c => { try { c.destroy(); } catch(_) {} });
+  chartInstances = {};
+}
+
+function buildCharts() {
+  destroyCharts();
+  const aset = DB.aset;
+
+  // 1 Kategori (Donut)
+  const katCount = { Hartamodal: 0, "Harga Rendah": 0 };
+  aset.forEach(a => { if (katCount[a.kategori] !== undefined) katCount[a.kategori]++; });
+  chartInstances.kat = new Chart(document.getElementById("cKategori"), {
+    type:"doughnut",
+    data:{ labels:Object.keys(katCount), datasets:[{ data:Object.values(katCount), backgroundColor:["#003399","#cc9900"], borderWidth:2 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom", labels:{ font:{ size:11 } } } } }
+  });
+
+  // 2 Bangunan (Bar)
+  const bgCount = {};
+  DB.bangunan.forEach(b => { bgCount[b.nama] = 0; });
+  aset.forEach(a => {
+    const bg = getBangunanByLokasi(a.lokasiId);
+    if (bg.nama) bgCount[bg.nama] = (bgCount[bg.nama] || 0) + 1;
+  });
+  chartInstances.bg = new Chart(document.getElementById("cBangunan"), {
+    type:"bar",
+    data:{ labels:Object.keys(bgCount), datasets:[{ label:"Bilangan Aset", data:Object.values(bgCount), backgroundColor:"#003399", borderRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1 } }, x:{ ticks:{ font:{ size:9 } } } } }
+  });
+
+  // 3 Jenis (Bar horizontal)
+  const jenisCount = {};
+  aset.forEach(a => { jenisCount[a.jenis] = (jenisCount[a.jenis] || 0) + 1; });
+  const jColors = ["#003399","#0055cc","#1a73e8","#4285f4","#669df6","#a8c7fa"];
+  chartInstances.jenis = new Chart(document.getElementById("cJenis"), {
+    type:"bar",
+    data:{ labels:Object.keys(jenisCount), datasets:[{ label:"Bilangan", data:Object.values(jenisCount), backgroundColor:jColors, borderRadius:5 }] },
+    options:{ indexAxis:"y", responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true, ticks:{ stepSize:1 } } } }
+  });
+
+  // 4 Kondisi (Doughnut)
+  const kdCount = { Baik:0, Rosak:0, Penyelenggaraan:0 };
+  aset.forEach(a => { if (kdCount[a.kondisi] !== undefined) kdCount[a.kondisi]++; });
+  chartInstances.kondisi = new Chart(document.getElementById("cKondisi"), {
+    type:"doughnut",
+    data:{ labels:Object.keys(kdCount), datasets:[{ data:Object.values(kdCount), backgroundColor:["#198038","#cc0000","#b45309"], borderWidth:2 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom", labels:{ font:{ size:11 } } } } }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  KPI CARDS
+// ══════════════════════════════════════════════════════════════
+function buildKPI() {
+  const aset = DB.aset;
+  const totalAset  = aset.length;
+  const totalHM    = aset.filter(a => a.kategori === "Hartamodal").length;
+  const totalHR    = aset.filter(a => a.kategori === "Harga Rendah").length;
+  const totalRosak = aset.filter(a => a.kondisi === "Rosak").length;
+  const totalSelengg = aset.filter(a => a.kondisi === "Penyelenggaraan").length;
+  const totalNilai = aset.reduce((s,a) => s + Number(a.harga), 0);
+  const totalLokasi= DB.lokasi.length;
+  const totalPegawai = DB.pegawai.length;
+
+  const cards = [
+    { icon:"📦", val:totalAset,  lbl:"Jumlah Aset",          sub:"Keseluruhan rekod aktif",   cls:"card-navy" },
+    { icon:"🏛️", val:totalHM,   lbl:"Aset Hartamodal",       sub:"Harga ≥ RM1,000",           cls:"card-purple" },
+    { icon:"📎", val:totalHR,   lbl:"Aset Harga Rendah",     sub:"Harga < RM1,000",           cls:"card-gold" },
+    { icon:"⚠️", val:totalRosak+totalSelengg, lbl:"Perlu Perhatian", sub:`${totalRosak} Rosak · ${totalSelengg} Selengg`, cls:"card-red" },
+    { icon:"📍", val:totalLokasi, lbl:"Jumlah Lokasi",        sub:`${DB.bangunan.length} bangunan`,cls:"card-green" },
+    { icon:"👤", val:totalPegawai,lbl:"Pegawai Bertanggungjawab",sub:"Pemegang aset berdaftar", cls:"card-orange" },
+    { icon:"💰", val:fmt(totalNilai), lbl:"Nilai Aset Keseluruhan", sub:"Harga perolehan terkumpul", cls:"card-navy" },
+    { icon:"✅", val:aset.filter(a=>a.kondisi==="Baik").length, lbl:"Aset Kondisi Baik", sub:`${Math.round(aset.filter(a=>a.kondisi==="Baik").length/totalAset*100)}% daripada jumlah`, cls:"card-green" }
+  ];
+
+  document.getElementById("kpiCards").innerHTML = cards.map(c =>
+    `<div class="card ${c.cls}">
+       <div class="card-icon">${c.icon}</div>
+       <div><div class="card-val">${c.val}</div><div class="card-lbl">${c.lbl}</div><div class="card-sub">${c.sub}</div></div>
+     </div>`
+  ).join("");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SENARAI ASET TABLE
+// ══════════════════════════════════════════════════════════════
+function kondisiBadge(k) {
+  const m = { Baik:"badge-baik", Rosak:"badge-rosak", Penyelenggaraan:"badge-selengg" };
+  return `<span class="badge ${m[k]||""}">${k}</span>`;
+}
+function kategBadge(k) {
+  return `<span class="badge ${k==="Hartamodal"?"badge-hm":"badge-hr"}">${k}</span>`;
+}
+function kondisiClass(k) {
+  return { Baik:"ss-baik", Rosak:"ss-rosak", Penyelenggaraan:"ss-selengg" }[k] || "";
+}
+
+let fSenaraiState = { q:"", kat:"", jenis:"", bg:"", lok:"", kond:"" };
+
+function getFilteredAset() {
+  const s = fSenaraiState;
+  return DB.aset.filter(a => {
+    const bg = getBangunanByLokasi(a.lokasiId);
+    if (s.q) {
+      const q = s.q.toLowerCase();
+      if (!a.noSiri.toLowerCase().includes(q) && !a.nama.toLowerCase().includes(q)) return false;
+    }
+    if (s.kat   && a.kategori !== s.kat) return false;
+    if (s.jenis && a.jenis    !== s.jenis) return false;
+    if (s.bg    && (bg.id||"") !== s.bg) return false;
+    if (s.lok   && a.lokasiId !== s.lok) return false;
+    if (s.kond  && a.kondisi  !== s.kond) return false;
+    return true;
+  });
+}
+
+function buildSenaraiTable() {
+  document.getElementById("thdSenarai").innerHTML =
+    `<tr><th>#</th><th>No. Siri</th><th>Nama Aset</th><th>Kategori</th><th>Jenis</th><th>Bangunan</th><th>Lokasi</th><th>Pegawai</th><th>Kondisi</th><th>Harga (RM)</th><th>Tindakan</th></tr>`;
+
+  const list = getFilteredAset();
+  document.getElementById("senaraiCount").textContent = `${list.length} / ${DB.aset.length} rekod`;
+
+  if (!list.length) {
+    document.getElementById("tbdSenarai").innerHTML =
+      `<tr><td colspan="11" class="empty-row">Tiada rekod dijumpai untuk penapisan ini.</td></tr>`;
+    return;
+  }
+
+  document.getElementById("tbdSenarai").innerHTML = list.map((a, idx) => {
+    const lok = getLokasi(a.lokasiId);
+    const bg  = getBangunan(lok.bId || "");
+    const pg  = getPegawai(a.pegawaiId);
+    const kCls = kondisiClass(a.kondisi);
+    return `<tr>
+      <td style="color:var(--muted);font-size:.75rem">${idx+1}</td>
+      <td><span class="no-siri">${a.noSiri}</span></td>
+      <td style="max-width:180px;white-space:normal">${a.nama}</td>
+      <td>${kategBadge(a.kategori)}</td>
+      <td style="font-size:.8rem">${a.jenis}</td>
+      <td style="font-size:.8rem;white-space:nowrap">${bg.nama||"-"}</td>
+      <td style="font-size:.8rem;white-space:nowrap">${lok.nama||"-"}</td>
+      <td style="font-size:.79rem;max-width:140px;white-space:normal">${pg.nama||"-"}</td>
+      <td><select class="ss ${kCls}" onchange="updateKondisi(this,'${a.id}')">
+        ${["Baik","Rosak","Penyelenggaraan"].map(v=>`<option value="${v}"${a.kondisi===v?" selected":""}>${v}</option>`).join("")}
+      </select></td>
+      <td style="font-size:.8rem;white-space:nowrap;text-align:right">${Number(a.harga).toLocaleString("ms-MY",{minimumFractionDigits:2})}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="hapusAset('${a.id}')">🗑</button></td>
+    </tr>`;
+  }).join("");
+}
+
+function updateKondisi(sel, aId) {
+  const a = DB.aset.find(x => x.id === aId);
+  if (!a) return;
+  const lama = a.kondisi;
+  a.kondisi = sel.value;
+  sel.className = `ss ${kondisiClass(sel.value)}`;
+  saveDB();
+  addLog(aId, "Kemas Kini Kondisi", lama, sel.value, "kondisi");
+  buildKPI();
+  buildCharts();
+  toast(`Kondisi dikemas kini: ${lama} → ${sel.value} ✓`);
+}
+
+function hapusAset(aId) {
+  if (!confirm("Padam rekod aset ini? Tindakan ini tidak boleh dibatalkan.")) return;
+  const a = DB.aset.find(x => x.id === aId);
+  if (a) addLog(aId, "Padam Aset", a.noSiri, "-", "rekod");
+  DB.aset = DB.aset.filter(x => x.id !== aId);
+  saveDB();
+  buildAll();
+  toast("Rekod aset dipadam ✓");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TAB LOKASI
+// ══════════════════════════════════════════════════════════════
+function buildLokasiTab() {
+  const bSel = document.getElementById("fLokasiTab");
+  bSel.innerHTML = `<option value="">-- Pilih Bangunan --</option>` +
+    DB.bangunan.map(b => `<option value="${b.id}">${b.nama}</option>`).join("");
+}
+
+function onLokasiTabBangunan(bId) {
+  const lSel = document.getElementById("fBilikTab");
+  const locs = DB.lokasi.filter(l => l.bId === bId);
+  lSel.innerHTML = `<option value="">-- Pilih Lokasi --</option>` +
+    locs.map(l => `<option value="${l.id}">${l.nama}</option>`).join("");
+  document.getElementById("lokasiDetail").innerHTML = `<div class="box-title"><span>📍</span> Pilih lokasi untuk melihat aset</div>`;
+}
+
+function onLokasiTabBilik(lId) {
+  if (!lId) return;
+  const lok = getLokasi(lId);
+  const bg  = getBangunan(lok.bId || "");
+  const asets = DB.aset.filter(a => a.lokasiId === lId);
+  const totalNilai = asets.reduce((s,a) => s + Number(a.harga), 0);
+
+  const rows = asets.length ? asets.map((a, i) => {
+    const pg = getPegawai(a.pegawaiId);
+    return `<tr>
+      <td style="color:var(--muted);font-size:.75rem">${i+1}</td>
+      <td><span class="no-siri">${a.noSiri}</span></td>
+      <td>${a.nama}</td>
+      <td>${kategBadge(a.kategori)}</td>
+      <td style="font-size:.8rem">${a.jenis}</td>
+      <td style="font-size:.79rem">${pg.nama||"-"}</td>
+      <td>${kondisiBadge(a.kondisi)}</td>
+      <td style="text-align:right;font-size:.8rem">${Number(a.harga).toLocaleString("ms-MY",{minimumFractionDigits:2})}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="8" class="empty-row">Tiada aset di lokasi ini.</td></tr>`;
+
+  document.getElementById("lokasiDetail").innerHTML = `
+    <div class="box-title"><span>📍</span> ${lok.nama} <small style="font-weight:400;color:var(--muted)"> — ${bg.nama||""}</small></div>
+    <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap">
+      <span style="background:var(--navy-lt);color:var(--navy);padding:.3rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600">📦 ${asets.length} Aset</span>
+      <span style="background:var(--green-lt);color:var(--green);padding:.3rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600">💰 ${fmt(totalNilai)}</span>
+    </div>
+    <div class="tbl-wrap">
+      <table><thead><tr><th>#</th><th>No Siri</th><th>Nama Aset</th><th>Kategori</th><th>Jenis</th><th>Pegawai</th><th>Kondisi</th><th>Harga (RM)</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TAB PEGAWAI
+// ══════════════════════════════════════════════════════════════
+function buildPegawaiTab() {
+  const pSel = document.getElementById("fPegawaiTab");
+  pSel.innerHTML = `<option value="">-- Pilih Pegawai --</option>` +
+    DB.pegawai.map(p => {
+      const lok = getLokasi(p.lokasiId);
+      return `<option value="${p.id}">${p.nama} (${lok.nama||"-"})</option>`;
+    }).join("");
+}
+
+function onPegawaiTab(pId) {
+  if (!pId) return;
+  const pg = getPegawai(pId);
+  const lok = getLokasi(pg.lokasiId || "");
+  const bg  = getBangunan(lok.bId || "");
+  const asets = DB.aset.filter(a => a.pegawaiId === pId);
+  const totalNilai = asets.reduce((s,a) => s + Number(a.harga), 0);
+
+  const rows = asets.length ? asets.map((a, i) => {
+    const lk = getLokasi(a.lokasiId);
+    const bgg = getBangunan(lk.bId||"");
+    return `<tr>
+      <td style="color:var(--muted);font-size:.75rem">${i+1}</td>
+      <td><span class="no-siri">${a.noSiri}</span></td>
+      <td>${a.nama}</td>
+      <td>${kategBadge(a.kategori)}</td>
+      <td style="font-size:.8rem">${a.jenis}</td>
+      <td style="font-size:.8rem">${bgg.nama||"-"}</td>
+      <td style="font-size:.8rem">${lk.nama||"-"}</td>
+      <td>${kondisiBadge(a.kondisi)}</td>
+      <td style="text-align:right;font-size:.8rem">${Number(a.harga).toLocaleString("ms-MY",{minimumFractionDigits:2})}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="9" class="empty-row">Tiada aset di bawah pegawai ini.</td></tr>`;
+
+  document.getElementById("pegawaiDetail").innerHTML = `
+    <div class="box-title"><span>👤</span> ${pg.nama}</div>
+    <div style="display:flex;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap">
+      <span style="background:var(--navy-lt);color:var(--navy);padding:.3rem .8rem;border-radius:999px;font-size:.8rem">${pg.jawatan||""}</span>
+      <span style="background:#f0f2f7;color:var(--muted);padding:.3rem .8rem;border-radius:999px;font-size:.8rem">📍 ${lok.nama||"-"} · ${bg.nama||"-"}</span>
+      <span style="background:var(--navy-lt);color:var(--navy);padding:.3rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600">📦 ${asets.length} Aset</span>
+      <span style="background:var(--green-lt);color:var(--green);padding:.3rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600">💰 ${fmt(totalNilai)}</span>
+    </div>
+    <div class="tbl-wrap">
+      <table><thead><tr><th>#</th><th>No Siri</th><th>Nama Aset</th><th>Kategori</th><th>Jenis</th><th>Bangunan</th><th>Lokasi</th><th>Kondisi</th><th>Harga (RM)</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MATRIK
+// ══════════════════════════════════════════════════════════════
+function buildMatrik() {
+  const JENIS_LIST = [...new Set(DB.aset.map(a => a.jenis))].sort();
+  const tbl = document.getElementById("matrikTable");
+
+  // header
+  let html = `<thead><tr><th>Lokasi / Bangunan</th>${JENIS_LIST.map(j=>`<th>${j}</th>`).join("")}<th>JUMLAH</th></tr></thead><tbody>`;
+
+  DB.bangunan.forEach(bg => {
+    const loks = DB.lokasi.filter(l => l.bId === bg.id);
+    loks.forEach((lok, li) => {
+      const rowAset = DB.aset.filter(a => a.lokasiId === lok.id);
+      let total = 0;
+      const cells = JENIS_LIST.map(j => {
+        const count = rowAset.filter(a => a.jenis === j).length;
+        total += count;
+        const cls = count > 0 ? "has-aset" : "zero";
+        const click = count > 0 ? `onclick="zoomMatrik('${lok.id}','${j}')"` : "";
+        return `<td class="${cls}" ${click}>${count > 0 ? count : "-"}</td>`;
+      });
+      const bgLabel = li === 0 ? `<small style="display:block;font-size:.68rem;color:var(--muted);font-weight:400">${bg.nama}</small>` : "";
+      html += `<tr>
+        <td style="white-space:nowrap">${bgLabel}${lok.nama}</td>
+        ${cells.join("")}
+        <td class="matrix-total">${total||"-"}</td>
+      </tr>`;
+    });
+  });
+
+  // Total row
+  const totalCells = JENIS_LIST.map(j => {
+    const c = DB.aset.filter(a => a.jenis === j).length;
+    return `<td class="matrix-total">${c}</td>`;
+  });
+  html += `<tr style="background:#e8eeff">
+    <td style="font-weight:700;color:var(--navy)">JUMLAH KESELURUHAN</td>
+    ${totalCells.join("")}
+    <td class="matrix-total" style="background:var(--navy);color:#fff">${DB.aset.length}</td>
+  </tr>`;
+
+  html += `</tbody>`;
+  tbl.innerHTML = html;
+}
+
+function zoomMatrik(lId, jenis) {
+  const lok   = getLokasi(lId);
+  const bg    = getBangunan(lok.bId || "");
+  const asets = DB.aset.filter(a => a.lokasiId === lId && a.jenis === jenis);
+  document.getElementById("zoomTitle").textContent = `${jenis} — ${lok.nama} (${bg.nama||""})`;
+
+  if (!asets.length) {
+    document.getElementById("zoomList").innerHTML = `<p style="color:var(--muted);font-size:.85rem">Tiada aset.</p>`;
+  } else {
+    document.getElementById("zoomList").innerHTML = asets.map(a => {
+      const pg = getPegawai(a.pegawaiId);
+      return `<div class="zoom-item">
+        <span class="no-siri zoom-nosiri">${a.noSiri}</span>
+        <div style="flex:1">
+          <div style="font-size:.84rem;font-weight:600">${a.nama}</div>
+          <div style="font-size:.75rem;color:var(--muted)">${pg.nama||"-"} &nbsp;·&nbsp; ${kondisiBadge(a.kondisi)}</div>
+        </div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:right;white-space:nowrap">${fmt(a.harga)}</div>
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("modalZoom").classList.add("active");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  LOG JEJAK
+// ══════════════════════════════════════════════════════════════
+function buildLog() {
+  if (!DB.log.length) {
+    document.getElementById("logList").innerHTML = `<p style="color:var(--muted);font-size:.85rem;padding:.5rem">Tiada rekod log lagi.</p>`;
+    return;
+  }
+  const colors = { "Kemas Kini Kondisi":"#003399","Padam Aset":"#cc0000","Daftar Aset Baru":"#198038","Kemas Kini Lokasi":"#b45309" };
+  document.getElementById("logList").innerHTML = DB.log.map(l => `
+    <div class="log-item">
+      <div class="log-dot" style="background:${colors[l.aksi]||"#aaa"}"></div>
+      <div class="log-body">
+        <div class="log-aset">${l.noSiri} — ${l.nama}</div>
+        <div class="log-detail">${l.aksi}: <b>${l.dari}</b> → <b>${l.kepada}</b></div>
+      </div>
+      <div class="log-time">${l.ts}</div>
+    </div>`
+  ).join("");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MODAL TAMBAH ASET
+// ══════════════════════════════════════════════════════════════
+function openModalAset() {
+  // Populate bangunan select
+  const bSel = document.getElementById("fmBangunan");
+  bSel.innerHTML = `<option value="">-- Pilih --</option>` +
+    DB.bangunan.map(b => `<option value="${b.id}">${b.nama}</option>`).join("");
+  document.getElementById("fmLokasi").innerHTML = `<option value="">-- Pilih Bangunan Dahulu --</option>`;
+
+  // Populate pegawai
+  document.getElementById("fmPegawai").innerHTML = `<option value="">-- Pilih --</option>` +
+    DB.pegawai.map(p => {
+      const l = getLokasi(p.lokasiId);
+      return `<option value="${p.id}">${p.nama} (${l.nama||"-"})</option>`;
+    }).join("");
+
+  document.getElementById("modalAset").classList.add("active");
+}
+
+document.getElementById("fmBangunan").addEventListener("change", function() {
+  const lSel = document.getElementById("fmLokasi");
+  const locs = DB.lokasi.filter(l => l.bId === this.value);
+  lSel.innerHTML = `<option value="">-- Pilih --</option>` +
+    locs.map(l => `<option value="${l.id}">${l.nama}</option>`).join("");
+});
+
+function saveAset() {
+  const get = id => document.getElementById(id).value.trim();
+  const noSiri   = get("fmNoSiri");
+  const nama     = get("fmNama");
+  const kategori = get("fmKategori");
+  const jenis    = get("fmJenis");
+  const harga    = get("fmHarga");
+  const tarikh   = get("fmTarikh");
+  const kondisi  = get("fmKondisi");
+  const bangunan = get("fmBangunan");
+  const lokasiId = get("fmLokasi");
+  const pegawaiId= get("fmPegawai");
+  const pembekal = get("fmPembekal");
+  const catatan  = get("fmCatatan");
+
+  if (!noSiri||!nama||!kategori||!jenis||!harga||!tarikh||!lokasiId||!pegawaiId) {
+    alert("Sila lengkapkan semua medan bertanda *"); return;
+  }
+  if (DB.aset.find(a => a.noSiri === noSiri)) {
+    alert("No Siri sudah wujud dalam sistem!"); return;
+  }
+
+  const newId = "A" + Date.now();
+  const newAset = { id:newId, noSiri, nama, kategori, jenis, harga:Number(harga), tarikh, pembekal, kondisi, status:"Aktif", lokasiId, pegawaiId, catatan };
+  DB.aset.push(newAset);
+  saveDB();
+  addLog(newId, "Daftar Aset Baru", "-", noSiri, "rekod");
+  closeModalAset();
+  buildAll();
+  toast(`Aset berjaya didaftarkan: ${noSiri} ✓`);
+}
+
+function closeModalAset() {
+  document.getElementById("modalAset").classList.remove("active");
+  ["fmNoSiri","fmNama","fmHarga","fmTarikh","fmPembekal","fmCatatan"].forEach(id => { document.getElementById(id).value = ""; });
+  ["fmKategori","fmJenis","fmKondisi","fmBangunan","fmLokasi","fmPegawai"].forEach(id => { document.getElementById(id).value = ""; });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  FILTER SETUP
+// ══════════════════════════════════════════════════════════════
+function buildFilterOptions() {
+  // Jenis
+  const jenisOpts = [...new Set(DB.aset.map(a => a.jenis))].sort();
+  document.getElementById("fJenis").innerHTML = `<option value="">Semua Jenis</option>` +
+    jenisOpts.map(j => `<option value="${j}">${j}</option>`).join("");
+
+  // Bangunan
+  document.getElementById("fBangunan").innerHTML = `<option value="">Semua Bangunan</option>` +
+    DB.bangunan.map(b => `<option value="${b.id}">${b.nama}</option>`).join("");
+
+  // Lokasi all
+  document.getElementById("fLokasi").innerHTML = `<option value="">Semua Lokasi</option>` +
+    DB.lokasi.map(l => `<option value="${l.id}">${l.nama}</option>`).join("");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EXPORT CSV
+// ══════════════════════════════════════════════════════════════
+function exportCSV() {
+  const header = ["No Siri","Nama Aset","Kategori","Jenis","Harga (RM)","Tarikh Perolehan","Pembekal","Kondisi","Status","Bangunan","Lokasi","Pegawai Bertanggungjawab","Jawatan Pegawai","Catatan"];
+  const rows = DB.aset.map(a => {
+    const lok = getLokasi(a.lokasiId);
+    const bg  = getBangunan(lok.bId||"");
+    const pg  = getPegawai(a.pegawaiId);
+    return [a.noSiri,a.nama,a.kategori,a.jenis,a.harga,a.tarikh,a.pembekal,a.kondisi,a.status,bg.nama||"",lok.nama||"",pg.nama||"",pg.jawatan||"",a.catatan].map(v => `"${String(v).replace(/"/g,'""')}"`).join(",");
+  });
+  const csv = [header.join(","), ...rows].join("\n");
+  const blob = new Blob(["\uFEFF"+csv], { type:"text/csv;charset=utf-8;" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href = url; a.download = `SAPA_Aset_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast("Export CSV berjaya ⬇");
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════════════════════
+let toastT;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  BUILD ALL
+// ══════════════════════════════════════════════════════════════
+function buildAll() {
+  buildKPI();
+  buildCharts();
+  buildFilterOptions();
+  buildSenaraiTable();
+  buildLokasiTab();
+  buildPegawaiTab();
+  buildMatrik();
+  buildLog();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EVENT LISTENERS
+// ══════════════════════════════════════════════════════════════
+// Tabs
+document.getElementById("tabBar").addEventListener("click", e => {
+  const btn = e.target.closest(".tab");
+  if (!btn) return;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+});
+
+// Header buttons
+document.getElementById("btnTambahAset").addEventListener("click", openModalAset);
+document.getElementById("btnExport").addEventListener("click", exportCSV);
+document.getElementById("btnResetData").addEventListener("click", () => {
+  if (!confirm("Reset semua data kepada data asal? Semua perubahan akan hilang.")) return;
+  localStorage.removeItem(KEY);
+  DB = freshDB(); saveDB();
+  buildAll();
+  toast("Data telah ditetapkan semula ✓");
+});
+
+// Modal aset
+document.getElementById("btnCloseModalAset").addEventListener("click", closeModalAset);
+document.getElementById("btnCancelAset").addEventListener("click", closeModalAset);
+document.getElementById("btnSaveAset").addEventListener("click", saveAset);
+document.getElementById("modalAset").addEventListener("click", e => { if (e.target.id === "modalAset") closeModalAset(); });
+
+// Modal zoom
+document.getElementById("btnCloseZoom").addEventListener("click", () => document.getElementById("modalZoom").classList.remove("active"));
+document.getElementById("btnCloseZoom2").addEventListener("click", () => document.getElementById("modalZoom").classList.remove("active"));
+document.getElementById("modalZoom").addEventListener("click", e => { if (e.target.id === "modalZoom") document.getElementById("modalZoom").classList.remove("active"); });
+
+// Filters senarai
+document.getElementById("srchSenarai").addEventListener("input", e => { fSenaraiState.q = e.target.value; buildSenaraiTable(); });
+document.getElementById("fKategori").addEventListener("change", e => { fSenaraiState.kat = e.target.value; buildSenaraiTable(); });
+document.getElementById("fJenis").addEventListener("change", e => { fSenaraiState.jenis = e.target.value; buildSenaraiTable(); });
+document.getElementById("fBangunan").addEventListener("change", e => {
+  fSenaraiState.bg = e.target.value;
+  // Update lokasi dropdown
+  const lSel = document.getElementById("fLokasi");
+  if (e.target.value) {
+    const locs = DB.lokasi.filter(l => l.bId === e.target.value);
+    lSel.innerHTML = `<option value="">Semua Lokasi</option>` + locs.map(l => `<option value="${l.id}">${l.nama}</option>`).join("");
+  } else {
+    lSel.innerHTML = `<option value="">Semua Lokasi</option>` + DB.lokasi.map(l => `<option value="${l.id}">${l.nama}</option>`).join("");
+  }
+  fSenaraiState.lok = "";
+  buildSenaraiTable();
+});
+document.getElementById("fLokasi").addEventListener("change", e => { fSenaraiState.lok = e.target.value; buildSenaraiTable(); });
+document.getElementById("fKondisi").addEventListener("change", e => { fSenaraiState.kond = e.target.value; buildSenaraiTable(); });
+document.getElementById("btnResetFilter").addEventListener("click", () => {
+  fSenaraiState = { q:"", kat:"", jenis:"", bg:"", lok:"", kond:"" };
+  document.getElementById("srchSenarai").value = "";
+  ["fKategori","fJenis","fBangunan","fLokasi","fKondisi"].forEach(id => { document.getElementById(id).value = ""; });
+  buildFilterOptions();
+  buildSenaraiTable();
+});
+
+// Tab Lokasi
+document.getElementById("fLokasiTab").addEventListener("change", e => onLokasiTabBangunan(e.target.value));
+document.getElementById("fBilikTab").addEventListener("change", e => onLokasiTabBilik(e.target.value));
+
+// Tab Pegawai
+document.getElementById("fPegawaiTab").addEventListener("change", e => onPegawaiTab(e.target.value));
+
+// Log
+document.getElementById("btnClearLog").addEventListener("click", () => {
+  if (!confirm("Padam semua log?")) return;
+  DB.log = []; saveDB(); buildLog(); toast("Log dipadam ✓");
+});
+
+// ══════════════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════════════
+function boot() { buildAll(); }
+
+if (window.Chart) {
+  boot();
+} else {
+  const s = document.querySelector("script[src*='chart.js']");
+  if (s) {
+    s.addEventListener("load", boot);
+    s.addEventListener("error", () => {
+      document.querySelectorAll(".chart-wrap").forEach(el => {
+        el.innerHTML = '<p style="color:#888;font-size:.8rem;padding:.5rem;text-align:center">Chart.js tidak dapat dimuatkan.<br>Semak sambungan internet.</p>';
+      });
+      buildKPI(); buildFilterOptions(); buildSenaraiTable();
+      buildLokasiTab(); buildPegawaiTab(); buildMatrik(); buildLog();
+    });
+  } else { boot(); }
+}
+</script>
+</body>
+</html>
